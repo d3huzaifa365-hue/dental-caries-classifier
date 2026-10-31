@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dental Cavity Detection</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#f2f7f6;
+  color:#173d43;
+  font-family:Arial,sans-serif;
+  line-height:1.6;
+}
+header{
+  background:white;
+  border-bottom:1px solid #dae6e4;
+  padding:18px 6%;
+  font-size:23px;
+  font-weight:bold;
+}
+header span{color:#087d79}
+.container{width:min(1050px,90%);margin:40px auto}
+h1{font-size:clamp(30px,5vw,48px);line-height:1.2;margin-bottom:12px}
+.intro{color:#607879}
+.badge{
+  background:#e1eee9;
+  color:#086d68;
+  padding:7px 13px;
+  border-radius:20px;
+  font-size:12px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:23px;
+  margin-top:28px;
+}
+.card{
+  background:white;
+  padding:27px;
+  border:1px solid #dce7e5;
+  border-radius:17px;
+}
+h2{font-size:21px;margin-top:0}
+.upload{
+  display:block;
+  border:2px dashed #a8cbc3;
+  border-radius:12px;
+  background:#f7fbfa;
+  padding:30px 18px;
+  text-align:center;
+}
+.upload strong{display:block;font-size:17px}
+input{max-width:100%;margin-top:17px}
+#preview{
+  width:100%;
+  height:240px;
+  object-fit:contain;
+  margin-top:20px;
+  border-radius:10px;
+}
+button{
+  width:100%;
+  margin-top:18px;
+  border:0;
+  padding:14px;
+  border-radius:8px;
+  background:#087d79;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+button:disabled{background:#dce7e5;color:#728886;cursor:not-allowed}
+.small{font-size:12px;color:#607879}
+#status{
+  font-size:13px;
+  color:#8b5d1c;
+  background:#fff7e7;
+  padding:12px;
+  border-radius:8px;
+}
+.empty{text-align:center;padding:35px 10px;color:#607879}
+#prediction{color:#087d79;font-size:25px}
+.score{margin:17px 0}
+.track{height:8px;background:#e8f0ed;border-radius:8px;overflow:hidden}
+.fill{height:100%;background:#087d79}
+#error{color:#ab3434;font-size:13px}
+.details{margin-top:23px}
+a{color:#087d79}
+footer{text-align:center;padding:20px;font-size:12px;color:#607879}
+[hidden]{display:none!important}
+@media(max-width:700px){
+  .grid{grid-template-columns:1fr}
+  .card{padding:21px}
+}
+</style>
+</head>
+
+<body>
+<header>🦷 Dental<span>Vision</span></header>
+
+<main class="container">
+  <span class="badge">DEEP LEARNING SEMESTER PROJECT</span>
+
+  <h1>Dental Cavity Detection</h1>
+
+  <p class="intro">
+    Explore enamel caries classification using close-up tooth photographs.
+  </p>
+
+  <p class="small">
+    <strong>Huzaifa Saeeed</strong> |
+    su92-bscsm-f23-538 | Deep Learning
+  </p>
+
+  <div class="grid">
+    <section class="card">
+      <h2>01 · Upload a tooth image</h2>
+
+      <label class="upload" for="imageInput">
+        <strong>Choose your photograph</strong>
+        <span class="small">JPG, PNG or WEBP · Maximum 8 MB</span>
+        <br>
+        <input id="imageInput" type="file"
+               accept="image/jpeg,image/png,image/webp">
+      </label>
+
+      <img id="preview" alt="Selected tooth photograph" hidden>
+
+      <p id="fileInfo" class="small">
+        Use a clear, close-up photograph of a tooth.
+      </p>
+
+      <button id="analyze" disabled>Analyze image</button>
+      <p id="error" role="alert"></p>
+
+      <p class="small">
+        Image preview stays in your browser. A connected model receives
+        the image only when you click Analyze image.
+      </p>
+    </section>
+
+    <section class="card" aria-live="polite">
+      <h2>02 · Prediction result</h2>
+
+      <div id="status" role="status">
+        Model not connected — image preview is ready.
+      </div>
+
+      <div id="empty" class="empty">
+        <h3>Your result will appear here</h3>
+        <p>Actual predictions require your trained model service.</p>
+      </div>
+
+      <div id="result" hidden>
+        <h3 id="prediction"></h3>
+        <div id="scores"></div>
+        <p class="small">
+          Scores are model outputs, not calibrated probabilities of disease.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <section class="card details">
+    <h2>Three source categories</h2>
+
+    <ul>
+      <li>No enamel caries</li>
+      <li>Early-stage enamel caries</li>
+      <li>Advanced enamel caries</li>
+    </ul>
+
+    <p class="small">
+      Dataset:
+      <a href="https://data.mendeley.com/datasets/9jnf2jvghy/2"
+         target="_blank" rel="noopener noreferrer">
+        Caries-Spectra V2
+      </a>
+      · Himel, Islam &amp; Hannan · CC BY 4.0.
+    </p>
+
+    <p class="small">
+      Educational research prototype. Clinical performance has not been
+      validated. This classifies image-level source labels; it does not
+      locate cavities or interpret X-rays. Full-run metrics are pending.
+    </p>
+  </section>
+</main>
+
+<footer>
+  Dental Cavity Detection · Huzaifa Saeeed · su92-bscsm-f23-538
+</footer>
+
+<script>
+// Add your trained-model API base URL here after deploying that service.
+// Leave empty until then. Never put passwords or secret keys here.
+const API_BASE = "";
+
+const classes = [
+  "no_enamel_caries",
+  "early_stage_enamel_caries",
+  "advanced_enamel_caries"
+];
+
+const labels = [
+  "No enamel caries",
+  "Early-stage enamel caries",
+  "Advanced enamel caries"
+];
+
+const el = id => document.getElementById(id);
+
+let file = null;
+let imageUrl = null;
+let ready = false;
+let busy = false;
+let version = 0;
+let controller = null;
+
+function updateButton() {
+  el("analyze").disabled = !file || !ready || busy;
+  el("analyze").textContent = busy ? "Analyzing…" : "Analyze image";
+}
+
+function resetResult() {
+  el("result").hidden = true;
+  el("empty").hidden = false;
+  el("error").textContent = "";
+}
+
+async function checkModel() {
+  if (!API_BASE) return;
+
+  const timeout = new AbortController();
+  const timer = setTimeout(() => timeout.abort(), 30000);
+
+  try {
+    const url = new URL(API_BASE);
+
+    if (url.protocol !== "https:" &&
+        !["localhost", "127.0.0.1"].includes(url.hostname)) {
+      throw Error("Use HTTPS for the model service.");
+    }
+
+    const response = await fetch(
+      API_BASE.replace(/\/$/, "") + "/health",
+      {
+        signal: timeout.signal,
+        credentials: "omit",
+        cache: "no-store"
+      }
+    );
+
+    if (!response.ok) throw Error();
+
+    const data = await response.json();
+
+    ready = data.ready === true &&
+      JSON.stringify(data.class_names) === JSON.stringify(classes);
+
+    el("status").textContent = ready
+      ? "Model connected — ready for analysis."
+      : "Model service is not ready or has incompatible classes.";
+
+  } catch (error) {
+    el("status").textContent =
+      "Model service unavailable. Image preview still works.";
+  } finally {
+    clearTimeout(timer);
+    updateButton();
+  }
+}
+
+el("imageInput").addEventListener("change", async event => {
+  const selected = event.target.files[0];
+  const current = ++version;
+
+  controller?.abort();
+  busy = false;
+  file = null;
+
+  if (imageUrl) URL.revokeObjectURL(imageUrl);
+  imageUrl = null;
+
+  el("preview").hidden = true;
+  el("fileInfo").textContent = "Choose a clear tooth photograph.";
+  resetResult();
+  updateButton();
+
+  if (!selected) return;
+
+  const validTypes = ["image/jpeg", "image/png", "image/webp"];
+
+  if (!validTypes.includes(selected.type) ||
+      !selected.size ||
+      selected.size > 8 * 1024 * 1024) {
+    el("error").textContent =
+      "Choose a JPG, PNG or WEBP file smaller than 8 MB.";
+    return;
+  }
+
+  const url = URL.createObjectURL(selected);
+  const probe = new Image();
+  probe.src = url;
+
+  try {
+    await probe.decode();
+
+    if (current !== version) {
+      URL.revokeObjectURL(url);
+      return;
+    }
+
+    if (probe.naturalWidth * probe.naturalHeight > 25000000) {
+      throw Error();
+    }
+
+    file = selected;
+    imageUrl = url;
+
+    el("preview").src = url;
+    el("preview").hidden = false;
+    el("fileInfo").textContent = selected.name;
+
+    updateButton();
+
+  } catch (error) {
+    URL.revokeObjectURL(url);
+
+    if (current === version) {
+      el("error").textContent =
+        "Cannot open this image. Choose another image under 25 million pixels.";
+    }
+  }
+});
+
+el("analyze").addEventListener("click", async () => {
+  if (!file || !ready || busy) return;
+
+  busy = true;
+  resetResult();
+  updateButton();
+
+  const current = version;
+  const request = new AbortController();
+  controller = request;
+  const timer = setTimeout(() => request.abort(), 90000);
+
+  try {
+    const body = new FormData();
+    body.append("file", file);
+
+    const response = await fetch(
+      API_BASE.replace(/\/$/, "") + "/predict",
+      {
+        method: "POST",
+        body,
+        signal: request.signal,
+        credentials: "omit"
+      }
+    );
+
+    if (!response.ok) {
+      throw Error("Prediction failed. Check the model service.");
+    }
+
+    const data = await response.json();
+    const scores = data.scores;
+
+    if (
+      JSON.stringify(data.class_names) !== JSON.stringify(classes) ||
+      !Array.isArray(scores) ||
+      scores.length !== 3 ||
+      scores.some(n =>
+        typeof n !== "number" || !Number.isFinite(n) || n < 0 || n > 1
+      ) ||
+      Math.abs(scores.reduce((a, b) => a + b, 0) - 1) > 0.02
+    ) {
+      throw Error("The model returned incompatible scores.");
+    }
+
+    if (current !== version) return;
+
+    const winner = scores.indexOf(Math.max(...scores));
+    el("prediction").textContent = labels[winner];
+    el("scores").replaceChildren();
+
+    scores.forEach((score, index) => {
+      const row = document.createElement("div");
+      row.className = "score";
+
+      const text = document.createElement("p");
+      text.textContent =
+        labels[index] + ": " + (score * 100).toFixed(1) + "% model score";
+
+      const track = document.createElement("div");
+      track.className = "track";
+
+      const fill = document.createElement("div");
+      fill.className = "fill";
+      fill.style.width = (score * 100) + "%";
+
+      track.append(fill);
+      row.append(text, track);
+      el("scores").append(row);
+    });
+
+    el("empty").hidden = true;
+    el("result").hidden = false;
+
+  } catch (error) {
+    if (current === version) {
+      el("error").textContent = error.name === "AbortError"
+        ? "Request timed out. Please try again."
+        : error.message;
+    }
+  } finally {
+    clearTimeout(timer);
+
+    if (current === version) {
+      busy = false;
+      controller = null;
+      updateButton();
+    }
+  }
+});
+
+window.addEventListener("pagehide", () => {
+  if (imageUrl) URL.revokeObjectURL(imageUrl);
+  controller?.abort();
+});
+
+checkModel();
+</script>
+</body>
+</html>
