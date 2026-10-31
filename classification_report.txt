@@ -1,0 +1,9 @@
+                           precision    recall  f1-score   support
+
+         no_enamel_caries       0.98      0.92      0.95        62
+early_stage_enamel_caries       0.85      0.91      0.88       104
+   advanced_enamel_caries       0.90      0.86      0.88        96
+
+                 accuracy                           0.90       262
+                macro avg       0.91      0.90      0.90       262
+             weighted avg       0.90      0.90      0.90       262

@@ -1,0 +1,40 @@
+{
+  "project": "Dental Cavity Detection: image-level enamel caries classification",
+  "class_names": [
+    "no_enamel_caries",
+    "early_stage_enamel_caries",
+    "advanced_enamel_caries"
+  ],
+  "keras_model": "dental_caries.keras",
+  "weights_file": "dental_caries.weights.h5",
+  "saved_model": "dental_caries_saved_model",
+  "input": {
+    "kind": "RGB image",
+    "dtype": "float32",
+    "range": [
+      0,
+      255
+    ],
+    "shape": [
+      "batch",
+      "height",
+      "width",
+      3
+    ],
+    "resize": [
+      224,
+      224
+    ],
+    "preprocessing": "RGB decode only outside model; resizing and scaling to [-1,1] are embedded."
+  },
+  "output": {
+    "shape": [
+      "batch",
+      3
+    ],
+    "kind": "softmax model scores",
+    "class_order": "class_names.json"
+  },
+  "keras_sha256": "4474f57e8606e60769d47f4659dbfa8a401ad115c2535261c3f6efd02a0a0ec8",
+  "clinical_use": "Not clinically validated. Educational research prototype."
+}

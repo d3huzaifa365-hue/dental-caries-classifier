@@ -1,0 +1,50 @@
+{
+  "project": "Dental Cavity Detection: image-level enamel caries classification",
+  "source": "https://data.mendeley.com/datasets/9jnf2jvghy/2",
+  "source_download_url": "https://data.mendeley.com/public-files/datasets/9jnf2jvghy/files/f20bdb5d-3cba-4c81-b013-8ef50b8feb95/file_downloaded",
+  "source_archive_sha256": "dad5dc6cc73cbf0938dbca8d97514864759ac34c08714456306ea951d58dcda1",
+  "source_citation": "Himel, G. M. S.; Islam, M. M.; Hannan, U. H. (2023). Caries-Spectra: A dataset of Enamel Caries, V2. DOI: 10.17632/9jnf2jvghy.2",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "class_names": [
+    "no_enamel_caries",
+    "early_stage_enamel_caries",
+    "advanced_enamel_caries"
+  ],
+  "published_top_level_images": 2000,
+  "excluded_originals_subfolder_images": 234,
+  "exact_duplicate_copies_removed": 249,
+  "conflicting_label_images_excluded": 0,
+  "retained_images": 1751,
+  "similarity_groups": 937,
+  "perceptual_hash_radius": 4,
+  "similarity_method": "64-bit pHash over 8 rotations/reflections; connected components, Hamming distance <=4",
+  "split_rule": "Approximately 70%/15%/15%; no image-similarity group crosses a split",
+  "seed": 42,
+  "split_search_attempt": 486,
+  "counts": {
+    "no_enamel_caries": {
+      "train": 277,
+      "validation": 59,
+      "test": 62
+    },
+    "early_stage_enamel_caries": {
+      "train": 468,
+      "validation": 107,
+      "test": 104
+    },
+    "advanced_enamel_caries": {
+      "train": 475,
+      "validation": 103,
+      "test": 96
+    }
+  },
+  "split_totals": {
+    "train": 1220,
+    "validation": 269,
+    "test": 262
+  },
+  "patient_independence": "Not established: no verified patient IDs are provided in these files. Similarity groups are not patient IDs.",
+  "changes": "Excluded the extra [Originals] subfolder and exact duplicate copies; renamed classes and filenames; grouped similar images before splitting. Original retained JPEG bytes are unchanged.",
+  "task": "Three-class image classification. No bounding boxes or segmentation masks are supplied."
+}

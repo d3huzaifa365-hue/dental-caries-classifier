@@ -1,0 +1,78 @@
+{
+  "project": "Dental Cavity Detection: image-level enamel caries classification",
+  "model": "Frozen ImageNet MobileNetV2 plus trained Dense128/Dropout0.3/softmax3 head",
+  "class_names": [
+    "no_enamel_caries",
+    "early_stage_enamel_caries",
+    "advanced_enamel_caries"
+  ],
+  "test_images": 262,
+  "test_correct": 235,
+  "test_accuracy": 0.8969465648854962,
+  "test_balanced_accuracy": 0.8991332368348498,
+  "test_cross_entropy": 0.29098615050315857,
+  "classification_report": {
+    "no_enamel_caries": {
+      "precision": 0.9827586206896551,
+      "recall": 0.9193548387096774,
+      "f1-score": 0.95,
+      "support": 62.0
+    },
+    "early_stage_enamel_caries": {
+      "precision": 0.8482142857142857,
+      "recall": 0.9134615384615384,
+      "f1-score": 0.8796296296296297,
+      "support": 104.0
+    },
+    "advanced_enamel_caries": {
+      "precision": 0.9021739130434783,
+      "recall": 0.8645833333333334,
+      "f1-score": 0.8829787234042553,
+      "support": 96.0
+    },
+    "accuracy": 0.8969465648854962,
+    "macro avg": {
+      "precision": 0.9110489398158063,
+      "recall": 0.8991332368348498,
+      "f1-score": 0.9042027843446282,
+      "support": 262.0
+    },
+    "weighted avg": {
+      "precision": 0.8998244879741154,
+      "recall": 0.8969465648854962,
+      "f1-score": 0.8975093088866031,
+      "support": 262.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      57,
+      5,
+      0
+    ],
+    [
+      0,
+      95,
+      9
+    ],
+    [
+      1,
+      12,
+      83
+    ]
+  ],
+  "completed_epochs": 9,
+  "selected_epoch": 5,
+  "split_counts": {
+    "train": 1220,
+    "validation": 269,
+    "test": 262
+  },
+  "seed": 42,
+  "tensorflow_version": "2.20.0",
+  "dataset_source": "https://data.mendeley.com/datasets/9jnf2jvghy/2",
+  "dataset_archive_sha256": "dad5dc6cc73cbf0938dbca8d97514864759ac34c08714456306ea951d58dcda1",
+  "evaluation_note": "Exploratory image-group holdout; not proven patient-independent; not a clinically validated diagnosis.",
+  "grouping_note": "64-bit pHash over 8 rotations/reflections; connected components, Hamming distance <=4",
+  "score_note": "Softmax scores are not calibrated probabilities of correctness."
+}
