@@ -1,0 +1,55 @@
+DENTAL CAVITY DETECTION — VERCEL PAR INTERFACE SHOW KARNE KA TAREEQA
+Huzaifa Saeeed | su92-bscsm-f23-538
+
+1. Dental_Cavity_Vercel.zip download aur extract karein.
+2. Extracted Dental_Cavity_Vercel folder kholein. Yahan vercel.json aur public
+   folder ek saath nazar aane chahiye.
+3. GitHub par website ke liye nayi repository bana sakte hain. Repository ki
+   root mein is folder ke ANDAR wali files/folders upload karein. ZIP upload
+   na karein. public folder ko flatten ya rename na karein.
+4. Commit message: Add dental classifier website and Vercel configuration
+5. Vercel par isi repository ko import karein. Settings:
+
+   Framework Preset: Other
+   Root Directory: ./  (repository root jahan vercel.json hai)
+   Build Command: Override ON, field bilkul khaali
+   Install Command: Override ON, field bilkul khaali
+   Output Directory: public
+
+   IMPORTANT: Build Command mein python build.py mat likhein.
+6. Deploy karein. Existing Vercel project ho to Settings > Build and Deployment
+   mein upar wali settings save karke Redeploy karein.
+7. Agar outer Dental_Cavity_Vercel folder bhi GitHub par upload ho gaya hai,
+   to Root Directory = Dental_Cavity_Vercel rakhein. Output Directory phir bhi
+   public rahegi. Root Directory ko public na karein.
+
+FILES KA RELATION:
+   vercel.json = repository root / selected Root Directory
+   public/index.html = website ka home page
+   public/assets/style.css = design
+   public/assets/app.js = upload / preview / API connection
+   public/assets/config.js = aapke project links aur optional model API URL
+   public/resources = report, PPT aur training notebook downloads
+
+IS PACKAGE MEIN ABHI KYA KAAM KARTA HAI?
+   Website interface, mobile layout, file preview, drag-and-drop, labelled
+   dataset samples aur project downloads.
+
+PREDICTION KAB CHALEGI?
+   Aapki full training ka model is package mein shamil nahi hai.
+   Model service connect hone tak website 'Model not connected' dikhayegi.
+   optional_backend folder mein trained .keras model ke liye API code diya hai.
+   Isay alag Python/Docker service par chalayein; Vercel par sirf frontend hai.
+   API chalne ke baad public/assets/config.js mein apiBaseUrl likhein.
+   Tafseel README.md mein hai.
+
+404 PHIR BHI AAYE TO:
+   - GitHub mein selected Root Directory ke andar vercel.json check karein.
+   - Usi directory ke andar public/index.html check karein (lowercase filename).
+   - Output Directory sirf public ho, public/public ya build/dist na ho.
+   - Naya commit deploy hua hai ya nahi, deployment ka commit check karein.
+   - Public website ke liye Vercel ka Visit button wala URL use karein.
+
+Source documentation:
+https://vercel.com/docs/builds/configure-a-build
+https://vercel.com/docs/project-configuration/vercel-json

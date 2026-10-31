@@ -1,0 +1,8 @@
+__pycache__/
+.venv/
+.env
+.DS_Store
+.vercel/
+.openai/
+optional_backend/model/*
+!optional_backend/model/README.txt
