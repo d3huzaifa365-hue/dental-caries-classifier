@@ -60,7 +60,7 @@ button:disabled{background:#dce7e5;color:#728886;cursor:not-allowed}#analyze{wid
 <script>
 // Optional: enter the HTTPS base URL of your trained-model API here.
 // Leave empty until your real model service is deployed. Never put a secret here.
-const API_BASE = "";
+   const API_BASE = "/api";
 const classes = ["no_enamel_caries","early_stage_enamel_caries","advanced_enamel_caries"];
 const labels = ["No enamel caries","Early-stage enamel caries","Advanced enamel caries"];
 const el = id => document.getElementById(id);
@@ -71,7 +71,7 @@ async function checkModel(){
   if(!API_BASE)return;
   const timeout = new AbortController(), timer=setTimeout(()=>timeout.abort(),30000);
   try{
-    const url=new URL(API_BASE);
+      const url=new URL(API_BASE,location.href);
     if(url.protocol!=="https:" && !["localhost","127.0.0.1"].includes(url.hostname))throw Error();
     const r=await fetch(API_BASE.replace(/\/$/,"")+"/health",{signal:timeout.signal,credentials:"omit",cache:"no-store"});
     if(!r.ok)throw Error();
