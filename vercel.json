@@ -1,7 +1,6 @@
 {
-  "version": 2,
-  "framework": null,
-  "buildCommand": "",
-  "installCommand": "",
-  "outputDirectory": "public"
+  "functions": {
+    "api/predict.py": { "includeFiles": "model/**", "maxDuration": 30 },
+    "api/health.py": { "includeFiles": "model/**" }
+  }
 }
